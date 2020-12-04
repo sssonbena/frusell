@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>Fruit Stand</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/monokai-sublime.min.css">
+    <link rel="stylesheet" href="/static/blog.css">
+    <link rel="stylesheet" href="/static/main.css">
+  </head>
+
+  <body>
+
+    <main class="container">
+      <header class="blog-header py-3">
+        <div class="row flex-nowrap justify-content-between align-items-center">
+          <div class="col-12 text-center">
+            <a class="blog-header-logo text-dark" href="#">Fruit Stand</a>
+          </div>
+        </div>
+      </header>
+
+      <div class="nav-scroller py-1 mb-2">
+        <nav class="nav d-flex justify-content-between">
+          <a class="p-2" href="/">首頁</a>
+          <a class="p-2" href="#">使用說明</a>
+          <a class="p-2" href="#">操作示範</a>
+          <a class="p-2" href="/code/">程式碼</a>
+          <a class="p-2" href="/database/">資料表</a>
+          <a class="p-2" href="#">關於作者</a>
+          <a class="p-2" target="_blank" href="https://github.com/ch-imi/ch-imi.github.io">GitHub</a>
+        </nav>
+      </div>
+
+      <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
+        <div class="col-md-6 px-0">
+          <h1 class="display-4 font-italic">Code</h1>
+          <p class="lead my-3">程式碼</p>
+        </div>
+      </div>
+    
+      <div>
+        <h3 class="text-primary">賣家</h3>
+        <pre>
+            <code class="python">
+            from adb import DB
+
+            class FruitStand():
+                def __init__(self):
+                    self.menu_title = '賣家'
+                    self.menu = {
+                        'a':'商店資訊(列表/修改)',
+                        'b':'商品管理',
+                        'c':'交易紀錄(條件查詢/統計)',
+                        'd':'會員資料(列表)',
+                        'q':'離開',
+                    }
+                    self.menu_func = {
+                        'a': lambda c, s: self.store_info(c, s),
+                        'b': lambda c, s: self.manage_goods(c, s),
+                        'c': lambda c, s: self.transaction_history(c, s),
+                        'd': lambda c, s: self.members(c, s),
+                    }
+                    self.divider = '='*20
+
+                def show_menu(self):
+
+                    print(self.divider)
+                    print(self.menu_title)
+                    print(self.divider)
+                    for fid, fname in self.menu.items():
+                        print('%s:%s' % (fid, fname))
+                    print(self.divider)
+                    opt = input('請選擇: ').lower()
+                    if opt in self.menu.keys():
+                        return opt, self.menu[opt]
+                    else:
+                        return '', '無此功能！'
+
+                def store_info(self, db, func_title):
+                    """商店資訊(列表/修改)
+                    """
+                    print('商店資訊')
+                    while True:
+                        subot = input('1.增修 2.查詢 3.刪除 4.列表 exit.離開: ')
+                        if subot == 'exit':
+                            break
+                        else:
+                            if subot == '4':
+                                db.list_all_store()
+                                continue
+
+                            if subot in ('1','2','3'):
+                                in_id = input('商店ID:') 
+
+                            if subot == '1': 
+                                in_store = input('商店名稱:')
+                                in_address = input('商店地址:')
+                                in_tel = input('商店電話:')
+                                in_hours = input('營業時間:')
+                                db.insert_or_update_store(in_id, in_store, in_address, in_tel, in_hours)
+                                db.check_store_location(in_id, in_store)
+                            elif subot == '2':
+                                in_store = input('商店名稱:')
+                                db.check_store_location(in_id, in_store)
+                            elif subot == '3':
+                                db.delete_store(in_id)
+                            else:
+                                print('輸入錯誤')
+                        return func_title
+                def manage_goods(self, db, func_title):
+                    """商品管理
+                    """
+                    print('商品管理')
+                    while True:
+                        subot = input('1.增修 2.查詢 3.刪除 4.列表 exit.離開: ')
+                        if subot == 'exit':
+                            break
+                        else:
+                            if subot == '4':
+                                db.list_all_fruits()
+                                continue
+
+                            if subot in('1','2','3'):
+                                in_fruit = input('水果:') 
+
+                            if subot == '1': 
+                                in_code = input('水果代碼:')
+                                in_pri_pack = int(input('水果個裝價錢:'))
+                                in_pri_box = int(input('水果盒裝價錢:'))
+                                db.insert_or_update_fruit(in_code, in_fruit, in_pri_pack, in_pri_box)
+                                db.check_fruit_out(in_code)
+                            elif subot == '2':
+                                db.check_fruit_out(in_fruit)
+                            elif subot == '3':
+                                db.delete_fruit(in_fruit)
+                            else:
+                                print('輸入錯誤')
+                        return func_title
+                def transaction_history(self, db, func_title):
+                    """交易紀錄(條件查詢)
+                    """
+                    account_id = input('請輸入會員編號: ')
+                    print('交易紀錄')
+                    db.list_transaction_history(account_id)
+                    return func_title
+
+                def members(self, db, func_title):
+                    """會員資料(列表)
+                    """
+                    print('會員資料')
+                    db.list_member_profile()
+                    return func_title
+
+            with DB() as db:
+                afruitstand = FruitStand()
+                while True:
+                    func_id, func_name = afruitstand.show_menu()
+                    if func_id == 'q':
+                        break
+                    elif func_id == '':
+                        print(func_name)
+                    else:
+                        afruitstand.menu_func[func_id](db,func_name)
+                        print()
+            </code>
+        </pre>
+           
+        <h3 class="text-primary">會員</h3>
+        <pre>
+            <code class="python">
+            from adb import DB
+
+            class customer:
+                def __init__(self):
+                    self.menu_title = '買家'
+                    self.menu = {
+                        'a':'登入或註冊',
+                        'b':'商品選購',
+                        'c':'商品目錄查詢',
+                        'd':'商店據點查詢',
+                        'e':'交易紀錄查詢',
+                        'f':'會員資料',
+                        'q':'離開',
+                    }
+                    self.menu_func = {
+                        'a': lambda c, s: self.login_or_signup(c, s),
+                        'b': lambda c, s: self.pick_out_and_buy(c, s),
+                        'c': lambda c, s: self.catalog_search(c, s),
+                        'd': lambda c, s: self.store_location(c, s),
+                        'e': lambda c, s: self.transaction_history(c, s),
+                        'f': lambda c, s: self.member_profile(c, s),
+
+                    }
+                    self.divider = '='*20
+                    self.shopping_cart = []
+                    self.account = ''
+
+                def show_menu(self):
+                    """ 主選單
+                    """
+                    print(self.divider)
+                    print(self.menu_title)
+                    print(self.divider)
+                    for fid, fname in self.menu.items():
+                        print('%s:%s' % (fid, fname))
+                    print(self.divider)
+                    opt = input('請選擇: ').lower()
+                    if opt in self.menu.keys():
+                        return opt, self.menu[opt]
+                    else:
+                        return '', '無此功能！'
+
+                def store_location(self, db, func_title):
+                    """ 商店據點查詢
+                    """
+                    while True:
+                        option = input('1.查詢 2.列表 exit.離開: ')
+                        if option == 'exit':
+                            break
+                        else:
+                            if option == '2':
+                                db.list_all_store()
+                                continue
+                            elif option == '1':
+                                in_store = input('請輸入店家名稱: ')
+                                db.check_store_location(in_store)
+                            else:
+                                print('輸入錯誤')
+                    return func_title       
+                def catalog_search(self, db, func_title):
+                    """商品目錄查詢
+                    """
+                    while True:
+                        option = input('1.查詢 2.列表 exit.離開: ')
+                        if option == 'exit':
+                            break
+                        else:
+                            if option == '2':
+                                db.list_all_fruits()
+                                continue
+                            elif option == '1':
+                                in_store = input('查詢商品: ')
+                                db.query_fruit(in_store)
+                            else:
+                                print('輸入錯誤')
+                    return func_title
+                def transaction_history(self, db, func_title):
+                    """交易紀錄查詢
+                    """
+                    db.list_transaction_history(self.account)
+                    return func_title
+
+                def member_profile(self, db, func_title):
+                    """會員資料
+                    """
+                    while True:
+                        option = input('1.修改 2.查詢 exit.離開: ')
+                        if option == 'exit':
+                            break
+                        else:
+                            qaccount =input('請輸入會員編號: ')
+                            if option == '2':
+                                db.show_member_profile(qaccount)
+                            elif option == '1':
+                                db.insert_or_update_member(qaccount)
+                            else:
+                                print('輸入錯誤')
+                    return func_title
+                        
+                def login_or_signup(self, db, func_title):
+                    """登入或註冊
+                    """
+                    qaccount = input('請輸入會員編號: ')
+                    if db.check_if_member_enrolled(qaccount):
+                        self.account = qaccount
+                        db.list_member_profile(self.account)
+                        self.menu_title = '買家 ' + self.account      
+                    else:
+                        if db.insert_or_update_member(qaccount):
+                            print('註冊成功')
+
+                def show_cart(self):
+                    print('購物車內所有商品: ')
+                    for row in self.shopping_cart:
+                        print(row)
+                    print()
+
+                def pick_out_and_buy(self, db, func_title):
+                    """商品選購
+                    """
+                    db.list_all_fruits()
+                    while True:
+                        option = input('1.請輸入欲選購之商品代碼 2.檢視購物車 3.結帳 4.暫離: ')
+                        if option == '2':
+                            self.show_cart()
+                        elif option == '3':
+                            self.show_cart()
+                            # 結帳
+                            db.check_shopping_cart(self.account, self.shopping_cart)
+                            break
+                        elif option == '4':
+                            break
+                        else:
+                            code = option
+                            chosen = db.buy_fruit(code)
+                            if chosen == None: 
+                                print('輸入錯誤')
+                            else:
+                                pack_or_box = input('包裝類型? 1.個裝 2.盒裝: ')
+                                numbers = int(input('數量: '))
+                                if pack_or_box == '1':
+                                    order = ('個裝', numbers, chosen[2], 0, 0, numbers * chosen[2])
+                                elif pack_or_box == '2':
+                                    order = ('盒裝', 0, 0, numbers, chosen[3], numbers * chosen[3])
+                                chosen = chosen[:2] + order
+                                self.shopping_cart.append(chosen)
+                                print(chosen ,'已加入購物車')
+                        
+
+            with DB() as db:
+                acustomer = customer()
+                while True:
+                    func_id, func_name = acustomer.show_menu()
+                    if func_id == 'q':
+                        break
+                    elif func_id == '':
+                        print(func_name)
+                    else:
+                        acustomer.menu_func[func_id](db,func_name)
+                        print()
+            </code>
+        </pre>
+
+        <h3 class="text-primary">資料庫模組</h3>
+        <pre>
+            <code class="python">
+            class DB:
+                def __init__(self):
+                    self.conn = None
+                    self.cur = None
+                    self.title_side = '-'*12
+
+                def __enter__(self):
+                    self.open()
+                    return self
+
+                def __exit__(self, exc_type, exc_value, traceback):
+                    self.close()
+                    return False
+
+                def open(self):
+                    """ 開啟資料庫連線
+                    """
+                    if self.conn is None:
+                        import sqlite3
+                        self.conn = sqlite3.connect('fruit.db')
+                        self.cur = self.conn.cursor()
+                    return True
+
+                def close(self):
+                    """ 關閉資料庫連線
+                    """
+                    if self.conn is not None:
+                        self.conn.close()
+                        self.conn = None
+                    return True
+
+                def get_today(self):
+                    from datetime import datetime
+                    return datetime.now().strftime("%Y-%m-%d")
+
+                def get_max_id(self, arg_table, arg_column):
+                    """ 取得資料最新編號
+                    """
+                    self.cur.execute("SELECT MAX({}) FROM {}".format(arg_column, arg_table))
+                    row_id = self.cur.fetchone()[0]
+                    if row_id == None:
+                        return 1
+                    return row_id + 1
+
+                def get_count_id(self, arg_table, arg_column, arg_value):
+                    """ 檢查資料編號是否存在
+                    """
+                    self.cur.execute("SELECT COUNT(*) FROM {} WHERE {}='{}'".format(arg_table, arg_column, arg_value))
+                    return self.cur.fetchone()[0]
+
+                def list_all_fruits(self):
+                    """水果列表
+                    """
+                    self.cur.execute("SELECT * FROM FRUIT")
+                    all_rows = self.cur.fetchall()
+                    for row in all_rows:
+                        print(row)
+                    print()
+
+                def insert_or_update_fruit(self, in_code, in_fruit, in_pri_pack, in_pri_box):
+                    """水果增修
+                    """
+                    self.cur.execute("SELECT COUNT(*) FROM FRUIT WHERE FRUIT_CODE=?", (in_code,))
+                    count_result = self.cur.fetchone()[0]
+                    if count_result == 0:
+                        self.cur.execute("INSERT INTO FRUIT VALUES (?, ?, ?, ?)", 
+                            (in_code, in_fruit, in_pri_pack, in_pri_box))
+                    elif count_result > 0:
+                        self.cur.execute("UPDATE FRUIT SET FRUIT_NAME=?, PRICE_PACK=?, PRICE_BOX=? WHERE FRUIT_CODE=?", 
+                            (in_fruit, in_pri_pack, in_pri_box, in_code))
+                    return self.conn.commit()
+
+
+                def query_fruit(self, in_fruit):
+                    """查詢水果
+                    """
+                    self.cur.execute("SELECT * FROM FRUIT WHERE FRUIT_NAME LIKE '%{}%'".format(in_fruit))
+                    all_rows = self.cur.fetchall()
+                    for row in all_rows:
+                        print(row)
+                    print()
+
+                def delete_fruit(self,arg_word):
+                    """刪除水果
+                    """
+                    self.cur.execute("DELETE FROM FRUIT WHERE FRUIT=?", (in_fruit,))
+                    return self.conn.commit()
+
+                def transaction_history(self):
+                    """交易紀錄
+                    """
+                    self.cur.execute("SELECT * FROM SALES")
+                    all_rows = self.cur.fetchall()
+                    for row in all_rows:
+                        print(row)
+                    print()
+
+                def list_all_store(self):
+                    """商店據點列表
+                    """
+                    self.cur.execute("SELECT * FROM STORE")
+                    all_rows = self.cur.fetchall()
+                    for row in all_rows:
+                        print(row)
+                    print()
+
+                def insert_or_update_store(self, in_id, in_store, in_address, in_tel, in_hours):
+                    """商店增修
+                    """
+                    self.cur.execute("SELECT COUNT(*) FROM STORE WHERE STORE_ID=?", (in_id,))
+                    count_result = self.cur.fetchone()[0]
+                    if count_result == 0:
+                        self.cur.execute("INSERT INTO STORE VALUES (?, ?, ?, ?, ?)", 
+                            (in_id, in_store, in_address, in_tel, in_hours))
+                    elif count_result > 0:
+                        self.cur.execute("UPDATE STORE SET STORE_NAME=?, STORE_ADDRESS=?, STORE_TEL=?, BUSINESS_HOURS=? WHERE STORE_ID=?", 
+                            (in_store, in_address, in_tel, in_hours, in_id))
+                    return self.conn.commit()
+
+                def delete_store(self, in_id):
+                    self.cur.execute("DELETE FROM STORE WHERE STORE_ID=?", (in_id,))
+                    return self.conn.commit()
+
+                def check_store_location(self, in_id, in_store):
+                    """商店據點查詢 A ''
+                    """
+                    in_id = '' if in_id == '' else '%{}%'.format(in_id)
+                    in_store = '' if in_store == '' else '%{}%'.format(in_store)
+                    self.cur.execute("SELECT * FROM STORE WHERE STORE_ID LIKE ? OR STORE_NAME LIKE ?", (in_id, in_store))
+                    print(self.cur.fetchall())
+
+                def list_transaction_history(self, account_id):
+                    """交易紀錄列表
+                    """
+                    account_id = ''.join(('%', account_id, '%'))
+                    self.cur.execute("SELECT * FROM SALES WHERE MEMBER_ID LIKE ?", (account_id,))
+                    all_rows = self.cur.fetchall()
+                    if len(all_rows) > 0:
+                        for row in all_rows:
+                            print(row)
+                    else:
+                        print(account, '查無任何交易紀錄')
+
+                def list_member_profile(self, account_id):
+                    """會員資料列表
+                    """
+                    # 改成 LIKE 模糊查詢
+                    self.cur.execute("SELECT * FROM MEMBERS WHERE MEMBER_ID=?", (account_id,))
+                    all_rows = self.cur.fetchall()
+                    for row in all_rows:
+                        print(row)
+                    print()
+
+                def show_member_profile(self, account_id):
+                    """查詢會員資料
+                    """
+                    self.cur.execute("SELECT * FROM MEMBERS WHERE MEMBER_ID=?", (account_id,))
+                    member_info = self.cur.fetchone()
+                    print(member_info)
+                    print()
+
+                def check_if_member_enrolled(self, account_id):
+                    """ 檢查會員是否註冊
+                    """
+                    self.cur.execute("SELECT COUNT(*) FROM MEMBERS WHERE MEMBER_ID=?", (account_id,))
+                    if self.cur.fetchone()[0] == 1:
+                        return True
+                    else:
+                        return False
+
+                def insert_or_update_member(self, account_id):
+                    """ 增修會員
+                    """
+                    full_name = input('名稱: ')
+                    if full_name == 'q':
+                        return False
+
+                    while True:
+                        birth_year = input('出生年: ')
+                        if birth_year.isdigit():
+                            birth_year = int(birth_year)
+                            if 2020 >= birth_year >= 1950:
+                                break
+                            else:
+                                print('出生年應介於 1950-2020 之間')
+                        
+                    while True:          
+                        gender = input('性別(F.女性 M.男性): ').upper()    
+                        if gender in ('F', 'M'):
+                            break
+                        else:
+                            print('輸入錯誤')
+
+                    is_member = self.get_count_id('MEMBERS', 'MEMBER_ID', account_id)
+                    # 資料無誤，准許註冊            
+                    if is_member in (0, 1):
+                        if is_member == 0:
+                            self.cur.execute("INSERT INTO MEMBERS VALUES (?, ?, ?, ?)", 
+                                (account_id, full_name, gender, birth_year))
+                        elif is_member == 1:
+                            self.cur.execute("UPDATE MEMBERS SET MEMBER_NAME=?, GENDER=?, BIRTH_YEAR=? WHERE MEMBER_ID=?", 
+                                (full_name, gender, birth_year, account_id))
+                        self.conn.commit()
+                        return True
+                    else:
+                        return False
+
+                def check_fruit_code(self, account_id):
+                    """確認水果代碼
+                    """
+                    self.cur.execute("SELECT COUNT(*) FROM FRUIT WHERE FRUIT_CODE=?", (account_id,))
+                    if self.cur.fetchone()[0] == 1:
+                        return True
+                    else:
+                        return False
+
+                def buy_fruit(self, code):
+                    """水果選購
+                    """
+                    if self.check_fruit_code(code):
+                        self.cur.execute("SELECT * FROM FRUIT WHERE FRUIT_CODE LIKE ?", (code,))
+                        return self.cur.fetchone()
+
+                def check_shopping_cart(self, account, shopping_cart):
+                    """結帳函式
+                    """
+                    today = self.get_today()
+                    folo_id = self.get_max_id('SALES','FOLIO')
+                    for order in shopping_cart:
+                        self.cur.execute("INSERT INTO SALES VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                            (today, account, folo_id, order[0]) + order[3:])
+                    self.conn.commit()
+            </code>
+        </pre>    
+      </div><!-- /.row -->
+
+    </main><!-- /.container -->
+
+    <footer class="blog-footer">
+      <p>2018 &copy; Army Wang</p>
+      <p>
+        <a href="#">Back to top</a>
+      </p>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/static/main.js"></script>
+  </body>
+</html>

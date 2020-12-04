@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>JavaScript Example</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+      .text-large {
+        font-size: 72px;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <main class="container">
+      <h1>JavaScript Example</h1>  
+
+      <ul class="list-group">
+        <li class="list-group-item apple">蘋果</li>
+        <li class="list-group-item banana">香蕉</li>
+        <li class="list-group-item apple">蘋果</li>
+        <li class="list-group-item banana">香蕉</li>
+      </ul>
+      <hr>
+      <input id="fruitCode" type="text" class="form-control" placeholder="英文代碼">
+      <input id="fruitName" type="text" class="form-control" placeholder="中文名稱">
+      <hr>
+      <button id="btn1" class="btn btn-primary">新增 (依英文代碼及中文名稱新增水果)</button>
+      <button id="btn2" class="btn btn-success">刪除 (依英文代碼刪除該類所有水果)</button>
+      <button id="btn3" class="btn btn-danger">變色 (依英文代碼對該類所有水果變色)</button>
+    </main><!-- /.container -->
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+      $(function(){
+        $("#btn1").click(function(){
+            var fruitCode = $('#fruitCode').val().trim().toLowerCase();
+            var fruitName = $('#fruitName').val().trim();
+            if(fruitCode != '') {
+                $('ul').append('<li class="list-group-item '+fruitCode+'">'+fruitName+'</li>');
+            }
+        });
+
+        $("#btn2").click(function(){
+            $('ul li').removeClass('text-primary');
+            var fruitCode = $('#fruitCode').val().trim().toLowerCase();
+            if(fruitCode != '') {
+                // li.class-name
+                $('li.'+fruitCode).remove();
+            }
+        });
+
+        $("#btn3").click(function(){
+            var fruitCode = $('#fruitCode').val().trim().toLowerCase();
+            if(fruitCode == '') {
+                $('li').toggleClass('list-group-item-danger');
+            }
+            else {
+                $('li').not('.'+fruitCode).removeClass('list-group-item-danger');
+                // .class-name
+                $('.'+fruitCode).toggleClass('list-group-item-danger');
+            }
+            
+        });
+      });
+    </script>
+  </body>
+</html>

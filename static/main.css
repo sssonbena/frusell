@@ -1,0 +1,55 @@
+body, button, html, input, select, textarea {
+    font-family: "Microsoft JhengHei";
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Playfair Display", Georgia, "Times New Roman", "Microsoft JhengHei";
+    font-weight: 400;
+}
+
+header,
+footer {
+	margin: 30px 0 40px 0;
+}
+
+h1.header-title {
+    padding: 5px 0;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+pre code {
+    font-size: 18px !important;
+    margin-left: -80px;
+}
+
+ol.note li {
+    font-size: 18px;
+}
+
+ul.note li {
+    font-size: 18px;
+    list-style-type: square
+}
+
+video {
+    width: 100%;
+}
+
+.small-sec {
+    margin: 60px 0 10px 0;
+}
+
+.text-desc {
+    color: #666;
+}
+
+.table-schema tr td:nth-child(1) {
+    width: 30%;
+}
+.table-schema tr td:nth-child(2) {
+    width: 20%;
+}
+.table-schema tr td:nth-child(3) {
+    width: 50%;
+}

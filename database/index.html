@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>Fruit Stand</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+    <link rel="stylesheet" href="/static/blog.css">
+    <link rel="stylesheet" href="/static/main.css">
+  </head>
+
+  <body>
+
+    <main class="container">
+      <header class="blog-header py-3">
+        <div class="row flex-nowrap justify-content-between align-items-center">
+          <div class="col-12 text-center">
+            <a class="blog-header-logo text-dark" href="#">Fruit Stand</a>
+          </div>
+        </div>
+      </header>
+
+      <div class="nav-scroller py-1 mb-2">
+        <nav class="nav d-flex justify-content-between">
+          <a class="p-2" href="/">首頁</a>
+          <a class="p-2" href="#">使用說明</a>
+          <a class="p-2" href="#">操作示範</a>
+          <a class="p-2" href="/code/">程式碼</a>
+          <a class="p-2" href="/database/">資料表</a>
+          <a class="p-2" href="#">關於作者</a>
+          <a class="p-2" target="_blank" href="https://github.com/ch-imi/ch-imi.github.io">GitHub</a>
+        </nav>
+      </div>
+
+      <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
+        <div class="col-md-6 px-0">
+          <h1 class="display-4 font-italic">Database Tables</h1>
+          <p class="lead my-3">資料表</p>
+        </div>
+      </div>
+    
+      <div class="row">
+        <h3>水果表 <span class="text-primary">FRUIT</span></h3>
+        <div class="col-md-12">
+            <table class="table table-bordered table-schema">
+                <thead class="thead-light">
+                    <tr>
+                      <th>欄位</th>
+                      <th>資料型態</th>
+                      <th>名稱</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                      <td>FRUIT_CODE</td>
+                      <td>text</td>
+                      <td>水果代碼</td>
+                    </tr>
+                    <tr>
+                      <td>FRUIT_NAME</td>
+                      <td>text</td>
+                      <td>水果名稱</td>
+                    </tr>
+                    <tr>
+                      <td>PRICE_PACK</td>
+                      <td>integer</td>
+                      <td>個裝價格</td>
+                    </tr>
+                    <tr>
+                      <td>PRICE_BOX</td>
+                      <td>integer</td>
+                      <td>盒裝價格</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>商店據點表 <span class="text-primary">STORE</span></h3>
+        <div class="col-md-12">
+            <table class="table table-bordered table-schema">
+                <thead class="thead-light">
+                    <tr>
+                      <th>欄位</th>
+                      <th>資料型態</th>
+                      <th>名稱</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                      <td>STORE_ID</td>
+                      <td>text</td>
+                      <td>商店代碼</td>
+                    </tr>
+                    <tr>
+                      <td>STORE_NAME</td>
+                      <td>text</td>
+                      <td>商店名稱</td>
+                    </tr>
+                    <tr>
+                      <td>STORE_ADDRESS</td>
+                      <td>text</td>
+                      <td>商店地址</td>
+                    </tr>
+                    <tr>
+                      <td>STORE_TEL</td>
+                      <td>text</td>
+                      <td>商店電話</td>
+                    </tr>
+                    <tr>
+                      <td>BUSINESS_HOURS</td>
+                      <td>text</td>
+                      <td>營業時間</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>會員表 <span class="text-primary">MEMBERS</span></h3>
+        <div class="col-md-12">
+            <table class="table table-bordered table-schema">
+                <thead class="thead-light">
+                    <tr>
+                      <th>欄位</th>
+                      <th>資料型態</th>
+                      <th>名稱</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                      <td>MEMBER_ID</td>
+                      <td>text</td>
+                      <td>會員帳號</td>
+                    </tr>
+                    <tr>
+                      <td>MEMBER_NAME</td>
+                      <td>text</td>
+                      <td>會員名稱</td>
+                    </tr>
+                    <tr>
+                      <td>GENDER</td>
+                      <td>text</td>
+                      <td>性別</td>
+                    </tr>
+                    <tr>
+                      <td>BIRTH_YEAR</td>
+                      <td>integer</td>
+                      <td>出生年</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>銷售表 <span class="text-primary">SALES</span></h3>
+        <div class="col-md-12">
+            <table class="table table-bordered table-schema">
+                <thead class="thead-light">
+                    <tr>
+                      <th>欄位</th>
+                      <th>資料型態</th>
+                      <th>名稱</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                      <td>SDATE</td>
+                      <td>text</td>
+                      <td>日期</td>
+                    </tr>
+                    <tr>
+                      <td>MEMBER_ID</td>
+                      <td>text</td>
+                      <td>會員帳號</td>
+                    </tr>
+                    <tr>
+                      <td>FOLIO</td>
+                      <td>integer</td>
+                      <td>訂單編號</td>
+                    </tr>
+                    <tr>
+                      <td>FRUIT_CODE</td>
+                      <td>text</td>
+                      <td>水果代碼</td>
+                    </tr>
+                    <tr>
+                      <td>PACK_NUM</td>
+                      <td>integer</td>
+                      <td>個裝數量</td>
+                    </tr>
+                    <tr>
+                      <td>PRICE_PACK</td>
+                      <td>integer</td>
+                      <td>個裝金額</td>
+                    </tr>
+                    <tr>
+                      <td>BOX_NUM</td>
+                      <td>integer</td>
+                      <td>盒裝數量</td>
+                    </tr>
+                    <tr>
+                      <td>PRICE_BOX</td>
+                      <td>integer</td>
+                      <td>盒裝金額</td>
+                    </tr>
+                    <tr>
+                      <td>AMOUNT</td>
+                      <td>integer</td>
+                      <td>總額</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+      </div><!-- /.row -->
+
+    </main><!-- /.container -->
+
+    <footer class="blog-footer">
+      <p>2018 &copy; Army Wang</p>
+      <p>
+        <a href="#">Back to top</a>
+      </p>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="/static/main.js"></script>
+  </body>
+</html>
